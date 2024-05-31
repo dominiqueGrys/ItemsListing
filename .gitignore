@@ -1,4 +1,6 @@
 __pycache__/
 venv/
 *.jpg
+*.png
 d_test/.env
+item_counter/yolov5

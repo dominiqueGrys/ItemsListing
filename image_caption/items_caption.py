@@ -4,7 +4,6 @@ from transformers import AutoProcessor, Blip2ForConditionalGeneration
 import torch
 
 
-
 # Directory containing images
 image_dir = 'images/'
 
@@ -30,8 +29,6 @@ if __name__ == "__main__":
     model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.to(device)
-    
-    
 
     resized_images = process_images(image_dir)
     # Example usage: Display the first resized image
@@ -39,7 +36,6 @@ if __name__ == "__main__":
         image = resized_images[0]
         
         inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
-        
 
         generated_ids = model.generate(**inputs)
 
