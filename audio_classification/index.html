@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Audio</title>
+</head>
+<body>
+    <h1>Upload Audio File</h1>
+    <form id="uploadForm">
+        User ID: <input type="text" id="userId"><br>
+        Audio File: <input type="file" id="audioFile"><br>
+        <input type="submit" value="Upload">
+    </form>
+    <div id="result"></div>
+    <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData();
+    formData.append('user_id', document.getElementById('userId').value);
+    formData.append('file', document.getElementById('audioFile').files[0]);
+    fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('result').innerText = JSON.stringify(data.results);
+    })
+    .catch(error => console.error('Error:', error));
+});
+    </script>
+</body>
+</html>
+

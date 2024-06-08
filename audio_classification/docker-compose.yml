@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  tf_serving:
+    image: tensorflow/serving
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./yamnet_model:/models/yamnet
+    environment:
+      MODEL_NAME: yamnet
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: audio_db
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  flask:
+    build: .
+    volumes:
+      - ./audio:/app/audio
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - tf_serving
+
+volumes:
+  pgdata:
+

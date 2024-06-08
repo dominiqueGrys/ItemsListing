@@ -4,3 +4,9 @@ venv/
 *.png
 d_test/.env
 item_counter/yolov5
+
+# Ignore all files in the audio/ directory
+audio_classification/audio/*
+
+# Ignore all files in the yamnet_model/ directory
+audio_classification/yamnet_model/*

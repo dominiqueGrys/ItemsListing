@@ -141,10 +141,9 @@ class RoofTileDataset(Dataset):
 
 def list_files_in_directory(directory, extensions=['.png']):
     files = []
-    for root, _, filenames in os.walk(directory):
-        for filename in filenames:
-            if any(filename.lower().endswith(ext) for ext in extensions):
-                files.append(os.path.join(root, filename))
+    for filename in os.listdir(directory):
+        if any(filename.lower().endswith(ext) for ext in extensions):
+            files.append(os.path.join(directory, filename))
     return files
 
 
@@ -155,12 +154,14 @@ transform = transforms.Compose([
 ])
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-image_directory = f'{dir_path}/train/t/'
+image_directory = f'{dir_path}/train/t2/'
 
 image_paths = list_files_in_directory(image_directory)
 
-labels = [x for x in range(1, len(image_paths)+1)]  # Corresponding counts of roof tiles
+#labels = [x for x in range(1, len(image_paths)+1)]  # Corresponding counts of roof tiles
+labels = [1,2,2,2,3,4,5,7,8,7 ]
 
+print(f"{image_paths} {labels}")
 
 # Split the dataset into training and validation sets
 train_paths, val_paths, train_labels, val_labels = train_test_split(image_paths, labels, test_size=0.2, random_state=42)
@@ -195,7 +196,7 @@ train_model(model, counter, train_dataloader, val_dataloader, criterion, optimiz
 # Load test dataset
 test_image_directory = f"{image_directory}test/"
 test_image_paths = list_files_in_directory(test_image_directory)
-test_labels = [23]  # Corresponding counts of roof tiles in the test set
+test_labels = [8,5]  # Corresponding counts of roof tiles in the test set
 
 # Create dataset and dataloader for the test set
 test_dataset = RoofTileDataset(test_image_paths, test_labels, transform=transform)
